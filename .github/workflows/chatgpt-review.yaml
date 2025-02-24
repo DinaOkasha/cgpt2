@@ -1,30 +1,24 @@
-name: Code Review with GPT
+name: GenAI Code Review
 
 on:
   pull_request:
-  push:
-    branches:
-      - main
+    types: [opened, synchronize]
 
 jobs:
-  code-review:
+  code_review_job:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
+    name: ChatGPT Code Review
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Upgrade Dependencies
-        run: |
-          pip install --upgrade openai httpx
-
-      - name: Run GPT Code Review
-        uses: sshnaidm/gpt-code-review-action@v2.0
+      - name: GenAI Code Review
+        uses: cirolini/genai-code-review@v2
         with:
-          openai-key: ${{ secrets.OPENAI_API_KEY }}
-          model: 'gpt-4'
-          max-length: 8000
-          prompt: 'Review this code for potential issues, security vulnerabilities, and best practices.'
-          post-if-error: true
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_pr_id: ${{ github.event.number }}
+          openai_model: "gpt-4-turbo" # or "gpt-3.5-turbo"
+          openai_temperature: 0.5
+          openai_max_tokens: 2048
+          mode: patch # "files" to analyze file content, "patch" to summarize changes
+          language: en
+          custom_prompt: "Identify security vulnerabilities and suggest improvements."
+
