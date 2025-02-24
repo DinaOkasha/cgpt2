@@ -1,4 +1,10 @@
-on: [pull_request]
+name: Code Review with GPT
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
 
 jobs:
   code-review:
@@ -7,14 +13,14 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      # This step checks out a copy of your repository.
-      - uses: actions/checkout@v3
-      # This step references the directory that contains the action.
-      - uses: sshnaidm/gpt-code-review-action@v2.0
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run GPT Code Review
+        uses: sshnaidm/gpt-code-review-action@v2.0
         with:
           openai-key: ${{ secrets.OPENAI_API_KEY }}
-          # model: 'gpt-4'
-          # max-length: 8000
-          # prompt: 'Only suggest performance improvements for this code.'
-          # post-if-error: false
-
+          model: 'gpt-4'
+          max-length: 8000
+          prompt: 'Review this code for potential issues, security vulnerabilities, and best practices.'
+          post-if-error: true  # Post a comment only if issues are found
