@@ -1,3 +1,2 @@
-print ("helloooooooooo world")
-print ("helloooooooooo world")
-print ("helloooooooooo world")
+def add_numbers(a, b):
+    return a - b  # Bug
