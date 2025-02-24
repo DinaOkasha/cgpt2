@@ -1,4 +1,4 @@
 def add_numbers(a, b):
-    return a - b  # Bug
+    return a - b  # Intentional mistake: should be a + b
 
-print(add_numbers(5, "three"))  # TypeError: unsupported operand type(s)
+print(add_numbers(5, 3))
