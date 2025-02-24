@@ -16,6 +16,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Upgrade Dependencies
+        run: |
+          pip install --upgrade openai httpx
+
       - name: Run GPT Code Review
         uses: sshnaidm/gpt-code-review-action@v2.0
         with:
@@ -23,4 +27,4 @@ jobs:
           model: 'gpt-4'
           max-length: 8000
           prompt: 'Review this code for potential issues, security vulnerabilities, and best practices.'
-          post-if-error: true  # Post a comment only if issues are found
+          post-if-error: true
