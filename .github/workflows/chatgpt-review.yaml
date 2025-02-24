@@ -12,15 +12,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: GenAI Code Review
+      - name: Run ChatGPT Code Review
         uses: cirolini/genai-code-review@v2
         with:
-          openai_api_key: ${{ secrets.openai_api_key }}
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          github_pr_id: ${{ github.event.number }}
-          openai_model: "gpt-3.5-turbo"  # Change to "gpt-4o" if needed
+          github_pr_id: ${{ github.event.pull_request.number }}
+          openai_model: gpt-3.5-turbo
           openai_temperature: 0.5
           openai_max_tokens: 2048
-          mode: files  # Can be "patch" to review only changes
+          mode: pr-comments  # Change this to enable inline PR comments
           language: en
-          custom_prompt: ""  # Optional: Add specific review instructions
