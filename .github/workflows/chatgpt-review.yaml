@@ -21,6 +21,6 @@ jobs:
           openai_model: gpt-3.5-turbo
           openai_temperature: 0.5
           openai_max_tokens: 2048
-          mode: pr-comments  # Change this to enable inline PR comments
+          mode: patch  # Change this to enable inline PR comments
           language: en
 
