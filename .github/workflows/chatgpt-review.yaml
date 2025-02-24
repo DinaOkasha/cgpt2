@@ -1,4 +1,4 @@
-name: GenAI Code Review
+name: ChatGPT Code Review
 
 on:
   pull_request:
@@ -9,16 +9,18 @@ jobs:
     runs-on: ubuntu-latest
     name: ChatGPT Code Review
     steps:
-      - name: GenAI Code Review
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run ChatGPT Code Review
         uses: cirolini/genai-code-review@v2
         with:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          github_pr_id: ${{ github.event.number }}
-          openai_model: "gpt-4-turbo" # or "gpt-3.5-turbo"
+          github_pr_id: ${{ github.event.pull_request.number }}
+          openai_model: gpt-3.5-turbo
           openai_temperature: 0.5
           openai_max_tokens: 2048
-          mode: patch # "files" to analyze file content, "patch" to summarize changes
+          mode: pr-comments  # Change this to enable inline PR comments
           language: en
-          custom_prompt: "Identify security vulnerabilities and suggest improvements."
 
